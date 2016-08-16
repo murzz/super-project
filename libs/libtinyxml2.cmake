@@ -1,0 +1,21 @@
+include(ExternalProject)
+
+set(TINYXML_REPO_URL https://github.com/leethomason/tinyxml2)
+#set(TINYXML_TAG "3.0.0")
+set(TINYXML_TAG "4.0.1")
+set(TINYXML_BUILD_ARGS
+    -DBUILD_SHARED_LIBS=ON
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DCMAKE_INSTALL_PREFIX=${STAGING_ROOT}
+    -DCMAKE_PREFIX_PATH=${STAGING_ROOT} ${CMAKE_PREFIX_PATH}
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+)
+
+ExternalProject_Add(tinyxml2
+        GIT_REPOSITORY ${TINYXML_REPO_URL}
+        GIT_TAG ${TINYXML_TAG}
+#        INSTALL_DIR ${STAGING_ROOT}
+        CMAKE_ARGS ${TINYXML_BUILD_ARGS}
+)
+
+add_dependencies(libs tinyxml2)

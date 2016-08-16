@@ -1,0 +1,22 @@
+include(ExternalProject)
+
+set(NEW_CMAKE_REPO_URL https://cmake.org/cmake.git)
+set(NEW_CMAKE_TAG "v3.4.3")
+set(NEW_CMAKE_ARGS
+    ${COMMON_CMAKE_ARGS}
+    -DCMAKE_USE_OPENSSL=ON
+    -DCMAKE_INSTALL_PREFIX=${STAGING_ROOT}
+    -DCMAKE_PREFIX_PATH=${STAGING_ROOT} ${CMAKE_PREFIX_PATH}
+)
+
+ExternalProject_Add(cmake
+        DEPENDS ninja
+        GIT_REPOSITORY ${NEW_CMAKE_REPO_URL}
+        GIT_TAG ${NEW_CMAKE_TAG}
+        CMAKE_GENERATOR ${CMAKE_GENERATOR_NINJA}
+        CMAKE_ARGS ${NEW_CMAKE_ARGS}
+)
+
+set(CMAKE_COMMAND_NEW ${STAGING_ROOT}/bin/cmake PARENT_SCOPE)
+#set(CMAKE_COMMAND ${STAGING_ROOT}/bin/cmake PARENT_SCOPE)
+add_dependencies(tools cmake)
